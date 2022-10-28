@@ -139,10 +139,11 @@ def _plot(
             ax.plot(
                 x_ticks,
                 results[i, j].flat,
-                label="{}, {}".format(metric, format),
+                label=f"{metric}, {format}",
                 marker=format_markers[j],
                 color=metric_colors[i % len(metric_colors)],
             )
+
     ax.set_xlabel(x_label)
     ax.set_ylabel("Time (s)")
     ax.legend()
@@ -155,10 +156,9 @@ if __name__ == "__main__":
         "metrics",
         nargs="*",
         default=sorted(METRICS),
-        help="Specifies metrics to benchmark, defaults to all. Choices are: {}".format(
-            sorted(METRICS)
-        ),
+        help=f"Specifies metrics to benchmark, defaults to all. Choices are: {sorted(METRICS)}",
     )
+
     ap.add_argument(
         "--formats",
         nargs="+",
@@ -193,10 +193,7 @@ if __name__ == "__main__":
 
     if args.plot is not None:
         max_val = getattr(args, args.plot)
-        if args.plot in ("classes", "samples"):
-            min_val = 2
-        else:
-            min_val = 0
+        min_val = 2 if args.plot in ("classes", "samples") else 0
         steps = np.linspace(min_val, max_val, num=args.n_steps + 1)[1:]
         if args.plot in ("classes", "samples"):
             steps = np.unique(np.round(steps).astype(int))

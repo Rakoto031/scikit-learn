@@ -10,6 +10,7 @@ that our model achieves best performance when we select around 10% of features.
 
 """
 
+
 # %%
 # Load some data to play with
 # ---------------------------
@@ -47,8 +48,8 @@ clf = Pipeline(
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 
-score_means = list()
-score_stds = list()
+score_means = []
+score_stds = []
 percentiles = (1, 3, 6, 10, 15, 20, 30, 40, 60, 80, 100)
 
 for percentile in percentiles:

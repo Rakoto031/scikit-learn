@@ -138,7 +138,7 @@ if SETUPTOOLS_COMMANDS.intersection(sys.argv):
         },
     )
 else:
-    extra_setuptools_args = dict()
+    extra_setuptools_args = {}
 
 
 # Custom clean command to remove build artifacts
@@ -187,11 +187,7 @@ try:
         def finalize_options(self):
             super().finalize_options()
             if self.parallel is None:
-                # Do not override self.parallel if already defined by
-                # command-line flag (--parallel or -j)
-
-                parallel = os.environ.get("SKLEARN_BUILD_PARALLEL")
-                if parallel:
+                if parallel := os.environ.get("SKLEARN_BUILD_PARALLEL"):
                     self.parallel = int(parallel)
             if self.parallel:
                 print("setting parallel=%d " % self.parallel)
@@ -273,31 +269,28 @@ def check_package_status(package, min_version):
         package_status["up_to_date"] = False
         package_status["version"] = ""
 
-    req_str = "scikit-learn requires {} >= {}.\n".format(package, min_version)
-
-    instructions = (
-        "Installation instructions are available on the "
-        "scikit-learn website: "
-        "http://scikit-learn.org/stable/install.html\n"
-    )
+    req_str = f"scikit-learn requires {package} >= {min_version}.\n"
 
     if package_status["up_to_date"] is False:
+        instructions = (
+            "Installation instructions are available on the "
+            "scikit-learn website: "
+            "http://scikit-learn.org/stable/install.html\n"
+        )
+
         if package_status["version"]:
             raise ImportError(
-                "Your installation of {} {} is out-of-date.\n{}{}".format(
-                    package, package_status["version"], req_str, instructions
-                )
+                f'Your installation of {package} {package_status["version"]} is out-of-date.\n{req_str}{instructions}'
             )
+
         else:
-            raise ImportError(
-                "{} is not installed.\n{}{}".format(package, req_str, instructions)
-            )
+            raise ImportError(f"{package} is not installed.\n{req_str}{instructions}")
 
 
 def setup_package():
-    python_requires = ">=3.8"
     required_python_version = (3, 8)
 
+    python_requires = ">=3.8"
     metadata = dict(
         name=DISTNAME,
         maintainer=MAINTAINER,
@@ -353,10 +346,9 @@ def setup_package():
         if sys.version_info < required_python_version:
             required_version = "%d.%d" % required_python_version
             raise RuntimeError(
-                "Scikit-learn requires Python %s or later. The current"
-                " Python version is %s installed in %s."
-                % (required_version, platform.python_version(), sys.executable)
+                f"Scikit-learn requires Python {required_version} or later. The current Python version is {platform.python_version()} installed in {sys.executable}."
             )
+
 
         check_package_status("numpy", min_deps.NUMPY_MIN_VERSION)
 

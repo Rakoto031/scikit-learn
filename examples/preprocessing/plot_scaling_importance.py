@@ -41,6 +41,7 @@ clear difference in prediction accuracies is observed wherein the dataset
 which is scaled before PCA vastly outperforms the unscaled version.
 
 """
+
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
@@ -102,7 +103,7 @@ X_train_std_transformed = pca_std.transform(scaled_X_train)
 # visualize standardized vs. untouched dataset with PCA performed
 fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=FIG_SIZE)
 
-target_classes = range(0, 3)
+target_classes = range(3)
 colors = ("blue", "red", "green")
 markers = ("^", "s", "o")
 

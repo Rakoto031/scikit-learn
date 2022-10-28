@@ -28,6 +28,7 @@ meaningful despite the large reduction in dimension.
 
 """
 
+
 # License: BSD 3 clause
 
 import numpy as np
@@ -73,7 +74,7 @@ knn = KNeighborsClassifier(n_neighbors=n_neighbors)
 dim_reduction_methods = [("PCA", pca), ("LDA", lda), ("NCA", nca)]
 
 # plt.figure()
-for i, (name, model) in enumerate(dim_reduction_methods):
+for name, model in dim_reduction_methods:
     plt.figure()
     # plt.subplot(1, 3, i + 1, aspect=1)
 
