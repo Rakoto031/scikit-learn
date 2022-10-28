@@ -96,14 +96,9 @@ def plot_on_dataset(X, y, ax, name):
 
     X = MinMaxScaler().fit_transform(X)
     mlps = []
-    if name == "digits":
-        # digits is larger but converges fairly quickly
-        max_iter = 15
-    else:
-        max_iter = 400
-
+    max_iter = 15 if name == "digits" else 400
     for label, param in zip(labels, params):
-        print("training: %s" % label)
+        print(f"training: {label}")
         mlp = MLPClassifier(random_state=0, max_iter=max_iter, **param)
 
         # some parameter combinations will not converge as can be seen on the

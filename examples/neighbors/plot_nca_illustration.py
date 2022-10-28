@@ -55,10 +55,7 @@ def link_thickness_i(X, i):
     dist_embedded = np.einsum("ij,ij->i", diff_embedded, diff_embedded)
     dist_embedded[i] = np.inf
 
-    # compute exponentiated distances (use the log-sum-exp trick to
-    # avoid numerical instabilities
-    exp_dist_embedded = np.exp(-dist_embedded - logsumexp(-dist_embedded))
-    return exp_dist_embedded
+    return np.exp(-dist_embedded - logsumexp(-dist_embedded))
 
 
 def relate_point(X, i, ax):
